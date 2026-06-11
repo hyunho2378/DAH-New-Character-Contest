@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary:    #1A1A1A;
+  --bg-deep:       #0A0A0A;
+  --bg-card:       #111111;
+  --bg-elevated:   #222222;
+  --text-primary:  #F0F0F0;
+  --text-secondary:#999999;
+  --text-tertiary: #555555;
+  --text-accent:   #E27DA6;
+  --border-subtle: #2A2A2A;
+  --border-default:#333333;
+  --border-accent: #E27DA6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background-color: #1A1A1A;
+  color: #F0F0F0;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ── 컨테이너 ── */
+.container {
+  width: 100%;
+  /* max-width 제거 — 어떤 화면에서도 꽉 채움 */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(20px, 5vw, 120px);
+  padding-right: clamp(20px, 5vw, 120px);
+}
+
+/* ── Full-bleed (About 히어로) ── */
+.text-full {
+  width: 100%;
+  padding-left: clamp(20px, 5vw, 120px);
+  padding-right: clamp(20px, 5vw, 120px);
+  overflow: hidden;
+}
+
+/* ── 애니메이션 ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadeIn 400ms ease forwards; }
+
+/* ── 한국어 줄바꿈 ── */
+p, span, li, td, th { word-break: keep-all; overflow-wrap: break-word; }
+
+/* ── 공통 유틸 ── */
+.view-link {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 12px; font-weight: 400; color: #999999;
+  letter-spacing: 0.08em; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: color 150ms ease; white-space: nowrap;
+}
+.view-link:hover { color: #E27DA6; }
+
+.name-link {
+  color: #F0F0F0; text-decoration: none;
+  transition: color 150ms ease; display: block; width: 100%;
+}
+.name-link:hover { color: #E27DA6; }
+
+/* ── 헤더 ── */
+.header-inner { height: 72px; }
+@media (max-width: 767px) { .header-inner { height: 60px; } }
+
+/* ── 그레인 ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9990;
+  pointer-events: none; opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px; background-repeat: repeat;
+}
+@media (pointer: fine) { * { cursor: none !important; } }
+
+/* ══════════════════════════════════════
+   Content 3단 그리드
+   ══════════════════════════════════════ */
+.content-section-grid {
+  display: grid;
+  grid-template-columns: 27fr 36fr 37fr;
+  grid-template-areas: "name info image";
+  min-height: 540px;
+  align-items: stretch;
+}
+.content-col-name  { grid-area: name; }
+.content-col-info  { grid-area: info; }
+.content-col-image {
+  grid-area: image;
+  display: flex;
+  justify-content: center;  /* ← 포스터 중앙정렬 */
+  align-items: flex-start;
+}
+
+@media (max-width: 1023px) {
+  .content-section-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "name info";
+    min-height: 360px;
+  }
+  .content-col-image { display: none; }
+}
+@media (max-width: 767px) {
+  .content-section-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "name" "image" "info";
+    min-height: unset;
+  }
+  .content-col-image {
+    display: flex !important;
+    justify-content: center;
+    padding: 0 0 24px 0 !important;
+  }
+  .content-col-name {
+    border-right: none !important;
+    padding: 32px 0 20px 0 !important;
+  }
+  .content-col-info {
+    border-right: none !important;
+    padding: 20px 0 32px 0 !important;
+  }
+}
+
+/* ══════════════════════════════════════
+   상세 페이지 그리드
+   ══════════════════════════════════════ */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 64px;
+  align-items: start;
+}
+@media (max-width: 1023px) {
+  .detail-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+@media (max-width: 767px) {
+  .detail-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
+  /* 모바일: sticky 해제, position 초기화 */
+  .detail-grid > div {
+    position: static !important;
+    width: 100% !important;
+  }
+}
+
+/* ── 모바일 상세 페이지 전용 ── */
+.detail-back-mobile { display: none; }
+.detail-back-desktop { display: block; }
+@media (max-width: 767px) {
+  .detail-back-mobile  { display: block; margin-bottom: 20px; }
+  .detail-back-desktop { display: none; }
+}
+
+/* ══════════════════════════════════════
+   About INFO 섹션
+   ══════════════════════════════════════ */
+.about-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .about-section-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    align-items: start !important;
+  }
+}
+
+/* ══════════════════════════════════════
+   Footer
+   ══════════════════════════════════════ */
+@media (max-width: 767px) {
+  .footer-inner {
+    grid-template-columns: 1fr !important;
+    align-items: flex-start !important;
+    gap: 32px !important;
+  }
+  .footer-right { align-items: flex-start !important; }
+}
+
+/* ══════════════════════════════════════
+   Award — 모바일 순서: 1st → 2nd → 3rd
+   ══════════════════════════════════════ */
+@media (max-width: 767px) {
+  .award-grid {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 40px !important;
+  }
+  .award-grid > div { flex: unset !important; width: 100% !important; max-width: 320px !important; }
+  /* 데스크탑 배치: 2nd | 1st | 3rd → 모바일: 1st, 2nd, 3rd 순 */
+  .award-slot-1 { order: 1 !important; margin-top: 0 !important; }
+  .award-slot-2 { order: 2 !important; margin-top: 0 !important; }
+  .award-slot-3 { order: 3 !important; margin-top: 0 !important; }
+  /* 포디엄 marginTop 제거 */
+  .award-slot-1 > div:first-child,
+  .award-slot-2 > div:first-child,
+  .award-slot-3 > div:first-child {
+    margin-top: 0 !important;
+  }
+}
+
+/* ══════════════════════════════════════
+   포스터 이미지
+   ══════════════════════════════════════ */
+.poster-img-wrap {
+  aspect-ratio: 420 / 594;
+  overflow: hidden;
+  background: #111111;
+  border: 1px solid #2A2A2A;
+  position: relative;
+  transition: transform 350ms ease, border-color 350ms ease, box-shadow 350ms ease;
+}
+.poster-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center; display: block;
+}
